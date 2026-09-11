@@ -1,5 +1,6 @@
 import { DEPOSIT_PER_ROOM, describeTier } from '../calc';
 import MinimumMessage from './MinimumMessage';
+import TrustBlock from './TrustBlock';
 
 const currency = (n) =>
   n.toLocaleString('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
@@ -156,6 +157,8 @@ export default function ResultPanel({
           </p>
         </>
       )}
+
+      <TrustBlock />
 
       <button className="btn btn--primary btn--cta btn--fixed" onClick={onBookMeasureUp}>
         Book a free measure-up

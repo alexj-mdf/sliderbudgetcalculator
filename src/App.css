@@ -478,6 +478,28 @@
   margin-top: 4px;
 }
 
+/* Trust block — quiet reassurance + reviews, sits just above the CTA */
+.trust-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 10px;
+}
+
+.trust-block-line {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.trustpilot-widget {
+  width: 100%;
+  margin-top: 2px;
+}
+
 @media (min-width: 640px) {
   .screen {
     padding-top: 48px;

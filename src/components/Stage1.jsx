@@ -1,6 +1,6 @@
 import BudgetSlider from './BudgetSlider';
 import MinimumMessage from './MinimumMessage';
-import { MIN_BUDGET_THRESHOLD, maxRoomsForBudget, totalBudgetAvailable } from '../calc';
+import { FLOORING_LABELS, MIN_BUDGET_THRESHOLD, maxRoomsForBudget, totalBudgetAvailable } from '../calc';
 
 export default function Stage1({ frequency, amount, onChange, onSeeOptions }) {
   const totalBudget = totalBudgetAvailable(amount, frequency);
@@ -18,7 +18,9 @@ export default function Stage1({ frequency, amount, onChange, onSeeOptions }) {
           <div className="budget-hero-glow" aria-hidden="true" />
           <span className="budget-hero-label">You could get up to</span>
           <span className="budget-hero-amount">{maxRooms}</span>
-          <span className="budget-hero-suffix">room{maxRooms === 1 ? '' : 's'} done</span>
+          <span className="budget-hero-suffix">
+            room{maxRooms === 1 ? '' : 's'} in {FLOORING_LABELS.carpet}
+          </span>
         </div>
       )}
 
