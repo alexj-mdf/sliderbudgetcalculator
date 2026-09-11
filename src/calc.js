@@ -58,6 +58,18 @@ export function totalBudgetAvailable(amount, frequency) {
   return Math.min(raw, MAX_BUDGET);
 }
 
+// Flat average room size used only for the Stage 1 "up to X rooms" estimate,
+// before any material is picked. Carpet is the reference price since it's
+// the cheapest — this is a maximum, not a material-specific figure. Matches
+// the "small" room preset used elsewhere, so at Carpet's price one room
+// (£290) sits just under the £300 minimum order — anything that clears the
+// minimum resolves to at least 1 room, with no separate zero-room fallback.
+export const AVERAGE_ROOM_SQM = 10;
+
+export function maxRoomsForBudget(totalBudget) {
+  return Math.floor(totalBudget / (AVERAGE_ROOM_SQM * FLOORING_PRICES_PER_M2.carpet));
+}
+
 // Human-readable room breakdown for a tier, e.g. "2 Large + 1 Small".
 export function describeTier(tier) {
   const counts = { small: 0, medium: 0, large: 0 };

@@ -1,4 +1,5 @@
 import { DEPOSIT_PER_ROOM, describeTier } from '../calc';
+import MinimumMessage from './MinimumMessage';
 
 const currency = (n) =>
   n.toLocaleString('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
@@ -6,14 +7,6 @@ const currency = (n) =>
 function depositLine(roomCount, deposit, stairsFeeApplied) {
   const base = `£${DEPOSIT_PER_ROOM} per room (£${deposit} total for ${roomCount} room${roomCount > 1 ? 's' : ''}), due on the day`;
   return stairsFeeApplied ? `${base} — includes £150 for stairs.` : base;
-}
-
-function MinimumMessage() {
-  return (
-    <p className="subhead min-order-message">
-      Let's talk — we can often work with smaller budgets than this.
-    </p>
-  );
 }
 
 function MaterialCard({ label, tier, cost, deposit, roomCount, stairsFeeApplied }) {

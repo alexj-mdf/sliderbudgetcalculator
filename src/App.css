@@ -103,6 +103,13 @@
   line-height: 1.05;
 }
 
+.budget-hero-suffix {
+  position: relative;
+  z-index: 1;
+  font-size: 0.95rem;
+  color: var(--teal-dark);
+}
+
 .btn {
   border-radius: 999px;
   padding: 14px 32px;

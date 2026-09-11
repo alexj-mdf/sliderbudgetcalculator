@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Landing from './components/Landing';
+import Stage1 from './components/Stage1';
 import MaterialSelect from './components/MaterialSelect';
 import BudgetSlider from './components/BudgetSlider';
 import ResultPanel from './components/ResultPanel';
@@ -10,6 +11,7 @@ import { calculateLiveResult, stairsConflictMessage } from './calc';
 const BOOKING_URL = 'https://mydreamflooring.co.uk/';
 
 function App() {
+  // landing -> stage1 (budget only, "up to X rooms") -> stage2 (materials + exact tiers)
   const [step, setStep] = useState('landing');
   const [frequency, setFrequency] = useState('weekly');
   const [amount, setAmount] = useState(30);
@@ -49,11 +51,30 @@ function App() {
 
   return (
     <div className="app-shell">
-      {step === 'landing' && <Landing onStart={() => setStep('main')} />}
+      {step === 'landing' && <Landing onStart={() => setStep('stage1')} />}
 
-      {step === 'main' && (
+      {step === 'stage1' && (
         <div className="screen">
           <button className="link-back" onClick={() => setStep('landing')} aria-label="Back">
+            ← Back
+          </button>
+
+          <Stage1
+            frequency={frequency}
+            amount={amount}
+            onChange={handleBudgetChange}
+            onSeeOptions={() => setStep('stage2')}
+          />
+
+          <button className="link-back link-back--center" onClick={handleStartOver}>
+            Start over
+          </button>
+        </div>
+      )}
+
+      {step === 'stage2' && (
+        <div className="screen">
+          <button className="link-back" onClick={() => setStep('stage1')} aria-label="Back">
             ← Back
           </button>
 
