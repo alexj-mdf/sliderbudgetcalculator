@@ -1,4 +1,4 @@
-import { DEPOSIT_PER_ROOM, describeTier } from '../calc';
+import { DEPOSIT_PER_ROOM } from '../calc';
 import MinimumMessage from './MinimumMessage';
 import TrustBlock from './TrustBlock';
 
@@ -20,7 +20,7 @@ export default function ResultPanel({
   amount,
   onBookMeasureUp,
 }) {
-  const { belowMinimum, tier, cost, deposit, roomCount, stairsFeeApplied } = result;
+  const { belowMinimum, cost, deposit, roomCount, stairsFeeApplied } = result;
 
   return (
     <div className="result-block">
@@ -40,7 +40,7 @@ export default function ResultPanel({
       </label>
       {stairsWarning && <p className="stairs-warning">{stairsWarning}</p>}
 
-      {belowMinimum || !tier ? (
+      {belowMinimum || roomCount < 1 ? (
         <MinimumMessage />
       ) : (
         <>
@@ -54,7 +54,9 @@ export default function ResultPanel({
           </div>
 
           <div className="tier-card">
-            <span className="tier-card-tier">{describeTier(tier)}</span>
+            <span className="tier-card-tier">
+              {roomCount} room{roomCount > 1 ? 's' : ''}
+            </span>
             <span className="tier-card-cost">{currency(cost)}</span>
             <span className="tier-card-deposit">
               {depositLine(roomCount, deposit, stairsFeeApplied)}
