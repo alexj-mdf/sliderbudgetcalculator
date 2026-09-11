@@ -58,18 +58,6 @@ export function totalBudgetAvailable(amount, frequency) {
   return Math.min(raw, MAX_BUDGET);
 }
 
-// Flat average room size used only for the Stage 1 "up to X rooms" estimate,
-// before any material is picked. Carpet is the reference price since it's
-// the cheapest — this is a maximum, not a material-specific figure. Matches
-// the "small" room preset used elsewhere, so at Carpet's price one room
-// (£290) sits just under the £300 minimum order — anything that clears the
-// minimum resolves to at least 1 room, with no separate zero-room fallback.
-export const AVERAGE_ROOM_SQM = 10;
-
-export function maxRoomsForBudget(totalBudget) {
-  return Math.floor(totalBudget / (AVERAGE_ROOM_SQM * FLOORING_PRICES_PER_M2.carpet));
-}
-
 // Human-readable room breakdown for a tier, e.g. "2 Large + 1 Small".
 export function describeTier(tier) {
   const counts = { small: 0, medium: 0, large: 0 };
@@ -82,19 +70,12 @@ export function describeTier(tier) {
     .join(' + ');
 }
 
-// Warns when the stairs addon is ticked alongside laminate, since laminate
-// isn't fitted on stairs. Returns null when there's nothing to warn about.
-export function stairsConflictMessage(selectedFlooring, hasStairs) {
-  if (!hasStairs || !selectedFlooring.includes('laminate')) return null;
-
-  const hasEligibleMaterial = selectedFlooring.some((key) =>
-    STAIRS_ELIGIBLE_FLOORING.includes(key)
-  );
-
-  if (!hasEligibleMaterial) {
-    return "Stairs aren't available in laminate, so the stairs add-on won't apply to your result.";
-  }
-  return "Stairs aren't available in laminate — the add-on will still apply wherever Vinyl or Carpet is used.";
+// Warns when the stairs addon is ticked with laminate selected, since
+// laminate isn't fitted on stairs. Returns null when there's nothing to
+// warn about.
+export function stairsConflictMessage(material, hasStairs) {
+  if (!hasStairs || material !== 'laminate') return null;
+  return "Stairs aren't available in laminate, so the stairs add-on won't apply to your result.";
 }
 
 // Highest tier whose total m² fits the budget left over for flooring area
@@ -116,71 +97,32 @@ function tierForBudget(pricePerM2, totalBudget, flatFee) {
   return fit;
 }
 
-function buildMaterialResult({ key, label, pricePerM2, totalBudget, stairsFeeApplies }) {
-  const flatFee = stairsFeeApplies ? STAIRS_FEE : 0;
-  const tier = tierForBudget(pricePerM2, totalBudget, flatFee);
-
-  if (!tier) {
-    return { key, label, tier: null, stairsFeeApplied: stairsFeeApplies };
-  }
-
-  const cost = pricePerM2 * tier.sqm + flatFee;
-  const roomCount = tier.rooms.length;
-
-  return {
-    key,
-    label,
-    tier,
-    cost,
-    roomCount,
-    deposit: DEPOSIT_PER_ROOM * roomCount,
-    stairsFeeApplied: stairsFeeApplies,
-  };
-}
-
-export function calculateLiveResult({ amount, frequency, selectedFlooring, hasStairs }) {
+export function calculateSingleResult({ amount, frequency, material, hasStairs }) {
   const totalBudget = totalBudgetAvailable(amount, frequency);
   const belowMinimum = totalBudget < MIN_BUDGET_THRESHOLD;
 
-  const orderedSelection = FLOORING_ORDER.filter((key) => selectedFlooring.includes(key));
-
-  const materials = orderedSelection.map((key) =>
-    buildMaterialResult({
-      key,
-      label: FLOORING_LABELS[key],
-      pricePerM2: FLOORING_PRICES_PER_M2[key],
-      totalBudget,
-      stairsFeeApplies: hasStairs && STAIRS_ELIGIBLE_FLOORING.includes(key),
-    })
-  );
-
-  let mix = null;
-  if (orderedSelection.length >= 2) {
-    const blendedPricePerM2 =
-      orderedSelection.reduce((sum, key) => sum + FLOORING_PRICES_PER_M2[key], 0) /
-      orderedSelection.length;
-    const stairsFeeApplies =
-      hasStairs && orderedSelection.some((key) => STAIRS_ELIGIBLE_FLOORING.includes(key));
-    const flatFee = stairsFeeApplies ? STAIRS_FEE : 0;
-    const tier = tierForBudget(blendedPricePerM2, totalBudget, flatFee);
-    const materialLabels = orderedSelection.map((key) => FLOORING_LABELS[key]);
-
-    if (tier) {
-      const cost = blendedPricePerM2 * tier.sqm + flatFee;
-      const roomCount = tier.rooms.length;
-      mix = {
-        materialLabels,
-        tier,
-        cost,
-        roomCount,
-        deposit: DEPOSIT_PER_ROOM * roomCount,
-        splitSqm: tier.sqm / orderedSelection.length,
-        stairsFeeApplied: stairsFeeApplies,
-      };
-    } else {
-      mix = { materialLabels, tier: null, stairsFeeApplied: stairsFeeApplies };
-    }
+  if (!material) {
+    return { totalBudget, belowMinimum, tier: null };
   }
 
-  return { totalBudget, belowMinimum, materials, mix };
+  const stairsFeeApplied = hasStairs && STAIRS_ELIGIBLE_FLOORING.includes(material);
+  const flatFee = stairsFeeApplied ? STAIRS_FEE : 0;
+  const pricePerM2 = FLOORING_PRICES_PER_M2[material];
+  const tier = tierForBudget(pricePerM2, totalBudget, flatFee);
+
+  if (!tier) {
+    return { totalBudget, belowMinimum, tier: null, stairsFeeApplied };
+  }
+
+  const roomCount = tier.rooms.length;
+
+  return {
+    totalBudget,
+    belowMinimum,
+    tier,
+    cost: pricePerM2 * tier.sqm + flatFee,
+    roomCount,
+    deposit: DEPOSIT_PER_ROOM * roomCount,
+    stairsFeeApplied,
+  };
 }

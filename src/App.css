@@ -57,10 +57,6 @@
   margin-bottom: 4px;
 }
 
-.result-basis {
-  font-size: 0.9rem;
-}
-
 /* Budget hero */
 .budget-hero {
   position: relative;
@@ -361,67 +357,11 @@
   margin-top: 4px;
 }
 
-/* Mix toggle */
-.mix-toggle-btn {
-  padding: 10px 22px;
-  border-radius: 999px;
-  border: 2px solid var(--teal-accent);
-  color: var(--teal-accent);
-  font-size: 0.85rem;
-  margin-top: 2px;
-}
-
-.mix-toggle-btn:not(:disabled):active {
-  transform: scale(0.97);
-}
-
-.mix-toggle-btn:disabled {
-  border-color: var(--text-muted);
-  color: var(--text-muted);
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-/* Tier result cards */
-.tier-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 8px;
-  width: 100%;
-  margin-top: 2px;
-}
-
-.tier-cards-grid--single {
-  grid-template-columns: 1fr;
-  max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Two materials side by side, with a plain-text "Or" between them to make
-   clear these are alternatives, not a combined result. */
-.tier-cards-pair {
-  display: flex;
-  align-items: stretch;
-  gap: 6px;
-  width: 100%;
-  margin-top: 2px;
-}
-
-.tier-cards-pair .tier-card {
-  flex: 1;
-  min-width: 0;
-}
-
-.tier-cards-or {
-  align-self: center;
-  flex-shrink: 0;
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  padding: 0 1px;
-}
-
+/* Tier result card — single centered card for the selected material */
 .tier-card {
+  width: 100%;
+  max-width: 320px;
+  margin: 2px auto 0;
   background: var(--surface);
   border-radius: 14px;
   padding: 12px 14px;
@@ -436,21 +376,9 @@
     0 0 20px 2px #10888c40;
 }
 
-.tier-card-label {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--teal-dark);
-}
-
 .tier-card-tier {
   font-size: 0.85rem;
   color: var(--teal-dark);
-}
-
-.tier-card-rooms,
-.tier-card-split {
-  font-size: 0.75rem;
-  color: var(--text-muted);
 }
 
 .tier-card-cost {
@@ -466,10 +394,13 @@
   margin-top: 4px;
 }
 
-.option-note {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  text-align: left;
+/* Bolded mix-and-match disclaimer — a plain statement, not a control */
+.mix-note {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--teal-dark);
+  max-width: 34ch;
+  margin-top: 8px;
 }
 
 .fitting-note {

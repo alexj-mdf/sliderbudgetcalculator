@@ -42,8 +42,7 @@ export default function TrustBlock() {
         data-businessunit-id="6728f7e9261bfeb02d62b9bb"
         data-style-height="24px"
         data-style-width="100%"
-        data-theme="dark"
-        data-token="13e161d4-331a-4891-b888-a31d3bd75631"
+        data-token="899ade73-6338-4dcf-8b34-3554ebea8698"
       >
         <a href="https://www.trustpilot.com/review/mydreamflooring.co.uk" target="_blank" rel="noopener noreferrer">
           Trustpilot
