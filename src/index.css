@@ -1,0 +1,63 @@
+:root {
+  --bg-light: #edfaff;
+  --teal-dark: #013d3f;
+  --teal-accent: #10888c;
+  --cta: #f4931f;
+  --surface: #fafdff;
+  --white: #ffffff;
+  --text-muted: #013d3f7a;
+
+  color-scheme: light;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-light);
+  color: var(--teal-dark);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+label,
+button,
+input {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  margin: 0;
+}
+
+button {
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input {
+  font-size: 1rem;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
