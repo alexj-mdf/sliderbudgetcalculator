@@ -10,12 +10,12 @@
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 24px 20px 40px;
+  padding: 18px 20px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 14px;
+  gap: 8px;
 }
 
 .screen--landing {
@@ -68,16 +68,16 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  margin-top: 12px;
-  padding: 20px 0;
+  margin-top: 2px;
+  padding: 4px 0;
 }
 
 .budget-hero-glow {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 340px;
-  height: 240px;
+  width: 220px;
+  height: 130px;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, #10888c33 0%, #10888c14 45%, transparent 72%);
   pointer-events: none;
@@ -149,11 +149,11 @@
 .step-heading {
   font-size: 1.4rem;
   color: var(--teal-dark);
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .step-heading--spaced {
-  margin-top: 20px;
+  margin-top: 8px;
 }
 
 /* Toggle */
@@ -184,7 +184,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
   width: 100%;
 }
 
@@ -193,7 +193,7 @@
   align-items: baseline;
   justify-content: center;
   gap: 2px;
-  margin-top: 8px;
+  margin-top: 2px;
 }
 
 .amount-currency {
@@ -229,40 +229,77 @@
   accent-color: var(--teal-accent);
 }
 
-/* Stairs addon */
-.stairs-toggle {
+/* Stairs addon — compact inline switch, no card */
+.stairs-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
   width: 100%;
-  background: var(--surface);
-  border-radius: 14px;
-  padding: 12px 16px;
+  padding: 2px 2px;
   text-align: left;
   cursor: pointer;
-  margin-top: 4px;
 }
 
-.stairs-toggle input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--teal-accent);
-}
-
-.stairs-toggle-text {
+.stairs-row-text {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0;
 }
 
-.stairs-toggle-label {
-  font-size: 0.9rem;
+.stairs-row-label {
+  font-size: 0.85rem;
   color: var(--teal-dark);
 }
 
-.stairs-toggle-hint {
-  font-size: 0.72rem;
+.stairs-row-hint {
+  font-size: 0.68rem;
   color: var(--text-muted);
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  width: 38px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.switch-track {
+  position: absolute;
+  inset: 0;
+  background: #013d3f26;
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+
+.switch-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 1px 2px #013d3f40;
+  transition: transform 0.15s ease;
+}
+
+.switch input:checked + .switch-track {
+  background: var(--teal-accent);
+}
+
+.switch input:checked + .switch-track::after {
+  transform: translateX(16px);
 }
 
 .stairs-warning {
@@ -270,7 +307,7 @@
   font-size: 0.78rem;
   color: #b3392f;
   text-align: left;
-  margin-top: -6px;
+  margin-top: -4px;
   padding: 0 4px;
 }
 
@@ -303,14 +340,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   width: 100%;
 }
 
 .disclaimer-note {
   font-size: 0.72rem;
   color: var(--text-muted);
-  margin-top: 16px;
+  margin-top: 10px;
 }
 
 .min-order-message {
@@ -327,17 +364,24 @@
   margin-top: 2px;
 }
 
-.mix-toggle-btn:active {
+.mix-toggle-btn:not(:disabled):active {
   transform: scale(0.97);
+}
+
+.mix-toggle-btn:disabled {
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 /* Tier result cards */
 .tier-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .tier-cards-grid--single {
@@ -347,13 +391,36 @@
   margin-right: auto;
 }
 
+/* Two materials side by side, with a plain-text "Or" between them to make
+   clear these are alternatives, not a combined result. */
+.tier-cards-pair {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.tier-cards-pair .tier-card {
+  flex: 1;
+  min-width: 0;
+}
+
+.tier-cards-or {
+  align-self: center;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  padding: 0 1px;
+}
+
 .tier-card {
   background: var(--surface);
   border-radius: 14px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   text-align: left;
   box-shadow:
     0 1px 2px #013d3f26,
@@ -401,7 +468,7 @@
 .fitting-note {
   font-size: 0.78rem;
   color: var(--text-muted);
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 @media (min-width: 640px) {

@@ -3,8 +3,9 @@ import { DEPOSIT_PER_ROOM, describeTier } from '../calc';
 const currency = (n) =>
   n.toLocaleString('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
 
-function depositLine(roomCount, deposit) {
-  return `£${DEPOSIT_PER_ROOM} per room (£${deposit} total for ${roomCount} room${roomCount > 1 ? 's' : ''}), due on the day`;
+function depositLine(roomCount, deposit, stairsFeeApplied) {
+  const base = `£${DEPOSIT_PER_ROOM} per room (£${deposit} total for ${roomCount} room${roomCount > 1 ? 's' : ''}), due on the day`;
+  return stairsFeeApplied ? `${base} — includes £150 for stairs.` : base;
 }
 
 function MinimumMessage() {
@@ -33,9 +34,22 @@ function MaterialCard({ label, tier, cost, deposit, roomCount, stairsFeeApplied 
         {roomCount} room{roomCount > 1 ? 's' : ''}
       </span>
       <span className="tier-card-cost">{currency(cost)}</span>
-      {stairsFeeApplied && <span className="option-note">Includes £150 for stairs.</span>}
-      <span className="tier-card-deposit">{depositLine(roomCount, deposit)}</span>
+      <span className="tier-card-deposit">{depositLine(roomCount, deposit, stairsFeeApplied)}</span>
     </div>
+  );
+}
+
+function renderMaterialCard(m) {
+  return (
+    <MaterialCard
+      key={m.key}
+      label={m.label}
+      tier={m.tier}
+      cost={m.cost}
+      deposit={m.deposit}
+      roomCount={m.roomCount}
+      stairsFeeApplied={m.stairsFeeApplied}
+    />
   );
 }
 
@@ -60,8 +74,9 @@ function MixCard({ mix }) {
       </span>
       <span className="tier-card-split">~{mix.splitSqm.toFixed(1)}m² each</span>
       <span className="tier-card-cost">{currency(mix.cost)}</span>
-      {mix.stairsFeeApplied && <span className="option-note">Includes £150 for stairs.</span>}
-      <span className="tier-card-deposit">{depositLine(mix.roomCount, mix.deposit)}</span>
+      <span className="tier-card-deposit">
+        {depositLine(mix.roomCount, mix.deposit, mix.stairsFeeApplied)}
+      </span>
       <span className="option-note">Exact combination confirmed at your free measure-up.</span>
     </div>
   );
@@ -80,6 +95,10 @@ export default function ResultPanel({
 }) {
   const { belowMinimum, totalBudget, materials, mix } = result;
   const showMixToggle = materials.length >= 2;
+  // Mixing materials across a single room doesn't make sense — the toggle
+  // only unlocks once the blended tier reaches 2+ rooms.
+  const mixAvailable = Boolean(mix?.tier) && mix.roomCount >= 2;
+  const showMix = mixMode && mixAvailable;
 
   return (
     <div className="result-block">
@@ -90,11 +109,18 @@ export default function ResultPanel({
       </div>
       <p className="subhead subhead--tight result-basis">to spend on flooring.</p>
 
-      <label className="stairs-toggle">
-        <input type="checkbox" checked={hasStairs} onChange={(e) => onToggleStairs(e.target.checked)} />
-        <span className="stairs-toggle-text">
-          <span className="stairs-toggle-label">Add stairs</span>
-          <span className="stairs-toggle-hint">Flat fee applies for carpet and vinyl</span>
+      <label className="stairs-row">
+        <span className="stairs-row-text">
+          <span className="stairs-row-label">Add stairs</span>
+          <span className="stairs-row-hint">Flat fee for carpet and vinyl</span>
+        </span>
+        <span className="switch">
+          <input
+            type="checkbox"
+            checked={hasStairs}
+            onChange={(e) => onToggleStairs(e.target.checked)}
+          />
+          <span className="switch-track" aria-hidden="true" />
         </span>
       </label>
       {stairsWarning && <p className="stairs-warning">{stairsWarning}</p>}
@@ -104,29 +130,31 @@ export default function ResultPanel({
       ) : (
         <>
           {showMixToggle && (
-            <button type="button" className="mix-toggle-btn" onClick={onToggleMixMode}>
-              {mixMode ? 'Show separately' : 'Mix these instead'}
+            <button
+              type="button"
+              className="mix-toggle-btn"
+              onClick={onToggleMixMode}
+              disabled={!mixAvailable}
+              title={mixAvailable ? undefined : 'Available once your budget covers 2+ rooms'}
+            >
+              {showMix ? 'Show separately' : 'Mix these instead'}
             </button>
           )}
 
-          {mixMode && mix ? (
+          {showMix ? (
             <div className="tier-cards-grid tier-cards-grid--single">
               <MixCard mix={mix} />
             </div>
-          ) : (
-            <div className="tier-cards-grid">
-              {materials.map((m) => (
-                <MaterialCard
-                  key={m.key}
-                  label={m.label}
-                  tier={m.tier}
-                  cost={m.cost}
-                  deposit={m.deposit}
-                  roomCount={m.roomCount}
-                  stairsFeeApplied={m.stairsFeeApplied}
-                />
-              ))}
+          ) : materials.length === 2 ? (
+            <div className="tier-cards-pair">
+              {renderMaterialCard(materials[0])}
+              <span className="tier-cards-or" aria-hidden="true">
+                Or
+              </span>
+              {renderMaterialCard(materials[1])}
             </div>
+          ) : (
+            <div className="tier-cards-grid">{materials.map(renderMaterialCard)}</div>
           )}
 
           <p className="fitting-note">
