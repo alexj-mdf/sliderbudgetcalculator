@@ -5,11 +5,6 @@ import TrustBlock from './TrustBlock';
 const currency = (n) =>
   n.toLocaleString('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
 
-function depositLine(roomCount, deposit, stairsFeeApplied) {
-  const base = `£${DEPOSIT_PER_ROOM} per room (£${deposit} total for ${roomCount} room${roomCount > 1 ? 's' : ''}), due on the day`;
-  return stairsFeeApplied ? `${base} — includes £150 for stairs.` : base;
-}
-
 export default function ResultPanel({
   result,
   materialLabel,
@@ -20,7 +15,7 @@ export default function ResultPanel({
   amount,
   onBookMeasureUp,
 }) {
-  const { belowMinimum, cost, deposit, roomCount, stairsFeeApplied } = result;
+  const { belowMinimum, cost, roomCount, stairsFeeApplied } = result;
 
   return (
     <div className="result-block">
@@ -53,15 +48,10 @@ export default function ResultPanel({
             </span>
           </div>
 
-          <div className="tier-card">
-            <span className="tier-card-tier">
-              {roomCount} room{roomCount > 1 ? 's' : ''}
-            </span>
-            <span className="tier-card-cost">{currency(cost)}</span>
-            <span className="tier-card-deposit">
-              {depositLine(roomCount, deposit, stairsFeeApplied)}
-            </span>
-          </div>
+          <p className="result-summary">
+            {currency(cost)} total · £{DEPOSIT_PER_ROOM} per room, due on the day
+          </p>
+          {stairsFeeApplied && <p className="result-summary result-summary--muted">Includes £150 for stairs.</p>}
         </>
       )}
 
@@ -70,9 +60,9 @@ export default function ResultPanel({
         guide.
       </p>
 
-      <p className="fitting-note">
-        Based on {currency(amount)}/{frequency === 'weekly' ? 'week' : 'month'} over 36 weeks.
-        Fitting fee applies, confirmed at your free measure-up.
+      <p className="disclaimer-note">
+        Guide only, based on {currency(amount)}/{frequency === 'weekly' ? 'week' : 'month'} over
+        36 weeks — fitting fee and a quick affordability check apply before anything's confirmed.
       </p>
 
       <TrustBlock />
@@ -80,11 +70,6 @@ export default function ResultPanel({
       <button className="btn btn--primary btn--cta btn--fixed" onClick={onBookMeasureUp}>
         Book a free measure-up
       </button>
-
-      <p className="disclaimer-note">
-        This is a guide only. A quick affordability check (income and outgoings, not a credit
-        check) is carried out before anything's confirmed.
-      </p>
     </div>
   );
 }
