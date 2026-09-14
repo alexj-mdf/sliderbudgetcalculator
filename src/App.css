@@ -292,17 +292,24 @@
   color: var(--teal-accent);
 }
 
-/* Trust footer — disclaimer (Caption), finance line (Body/700, the one
-   reassurance that should stand out), and the widget, all one compact
-   block via the shared .section rhythm. */
-.finance-line {
+/* Trust footer — finance badge and the widget, one compact block via the
+   shared .section rhythm. The badge is the one non-text-only visual
+   moment on the page — a soft-teal pill, set apart from the plain-text
+   type scale used everywhere else. */
+.finance-badge {
+  display: inline-flex;
+  background: #10888c1f;
+  border-radius: 999px;
+  padding: var(--space-2) var(--space-4);
   font-weight: 700;
 }
 
 /* Same 34ch convention as .mix-note and .landing-subhead, so every
-   secondary centred line on the page wraps at the same width. */
+   secondary centred line on the page wraps at the same width. Now the
+   very last thing on the screen, lowest-priority placement (as in v1). */
 .disclaimer-line {
   max-width: 34ch;
+  margin-top: var(--space-3);
 }
 
 .trustpilot-widget {

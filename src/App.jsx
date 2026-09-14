@@ -21,6 +21,7 @@ function App() {
   };
 
   const result = calculateSingleResult({ amount, frequency, material });
+  const hasResult = !result.belowMinimum && result.roomCount >= 1;
 
   const handleBookMeasureUp = () => {
     window.location.href = BOOKING_URL;
@@ -46,7 +47,7 @@ function App() {
           <MaterialSelect selected={material} onSelect={setMaterial} />
 
           <p className="caption mix-note">
-            We know you might want a mix of materials room to room, this is just a quick guide.
+            Want a mix of materials room to room? We can do that, this is just a quick guide.
           </p>
 
           {material && (
@@ -63,6 +64,13 @@ function App() {
           <button className="link-back link-back--center" onClick={handleStartOver}>
             Start over
           </button>
+
+          {hasResult && (
+            <p className="caption disclaimer-line">
+              Guide only, based on rooms around 3×3m — fitting fee and a quick affordability check
+              apply before anything's confirmed.
+            </p>
+          )}
         </div>
       )}
     </div>

@@ -6,10 +6,6 @@ export default function ResultPanel({ result, materialLabel, onBookMeasureUp }) 
   const { belowMinimum, roomCount } = result;
   const hasResult = !belowMinimum && roomCount >= 1;
 
-  const disclaimer = hasResult
-    ? "Guide only, based on rooms around 3×3m — fitting fee and a quick affordability check apply before anything's confirmed."
-    : null;
-
   return (
     <>
       <div className="section">
@@ -33,7 +29,7 @@ export default function ResultPanel({ result, materialLabel, onBookMeasureUp }) 
         )}
       </div>
 
-      <TrustBlock disclaimer={disclaimer} />
+      <TrustBlock />
 
       <button className="btn btn--cta btn--fixed" onClick={onBookMeasureUp}>
         Book a free measure-up
