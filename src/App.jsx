@@ -4,7 +4,7 @@ import Landing from './components/Landing';
 import MaterialSelect from './components/MaterialSelect';
 import BudgetSlider from './components/BudgetSlider';
 import ResultPanel from './components/ResultPanel';
-import { FLOORING_LABELS, calculateSingleResult, stairsConflictMessage } from './calc';
+import { FLOORING_LABELS, calculateSingleResult } from './calc';
 
 // Temporary placeholder — swap for the real booking page once it's built.
 const BOOKING_URL = 'https://mydreamflooring.co.uk/';
@@ -14,15 +14,13 @@ function App() {
   const [frequency, setFrequency] = useState('weekly');
   const [amount, setAmount] = useState(30);
   const [material, setMaterial] = useState(null);
-  const [hasStairs, setHasStairs] = useState(false);
 
   const handleBudgetChange = (partial) => {
     if ('frequency' in partial) setFrequency(partial.frequency);
     if ('amount' in partial) setAmount(partial.amount);
   };
 
-  const result = calculateSingleResult({ amount, frequency, material, hasStairs });
-  const stairsWarning = stairsConflictMessage(material, hasStairs);
+  const result = calculateSingleResult({ amount, frequency, material });
 
   const handleBookMeasureUp = () => {
     window.location.href = BOOKING_URL;
@@ -33,7 +31,6 @@ function App() {
     setFrequency('weekly');
     setAmount(30);
     setMaterial(null);
-    setHasStairs(false);
   };
 
   return (
@@ -58,11 +55,6 @@ function App() {
               <ResultPanel
                 result={result}
                 materialLabel={FLOORING_LABELS[material]}
-                hasStairs={hasStairs}
-                onToggleStairs={setHasStairs}
-                stairsWarning={stairsWarning}
-                frequency={frequency}
-                amount={amount}
                 onBookMeasureUp={handleBookMeasureUp}
               />
             </>

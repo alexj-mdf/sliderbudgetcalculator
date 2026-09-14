@@ -31,7 +31,7 @@ export default function TrustBlock({ disclaimer }) {
 
   return (
     <div className="section trust-footer">
-      {disclaimer && <p className="caption">{disclaimer}</p>}
+      {disclaimer && <p className="caption disclaimer-line">{disclaimer}</p>}
       <p className="body finance-line">0% in-house finance available, no credit checks</p>
       {/* TrustBox widget - Micro Star */}
       <div
