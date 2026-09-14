@@ -5,7 +5,25 @@
   --cta: #f4931f;
   --surface: #fafdff;
   --white: #ffffff;
-  --text-muted: #013d3f7a;
+  /* The one muted tone in the system: teal-dark at 60% opacity. Used for
+     every Caption-level colour need instead of introducing new greys. */
+  --text-muted: #013d3f99;
+
+  /* Spacing scale — 8px base. Every gap/margin/padding in the app uses one
+     of these seven values, nothing arbitrary. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+
+  /* Type scale — four sizes only. */
+  --fs-hero: 64px;
+  --fs-heading: 20px;
+  --fs-body: 16px;
+  --fs-caption: 13px;
 
   color-scheme: light;
   font-family: 'Montserrat', sans-serif;

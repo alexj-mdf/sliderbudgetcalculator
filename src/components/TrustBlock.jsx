@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export default function TrustBlock() {
+export default function TrustBlock({ disclaimer }) {
   const widgetRef = useRef(null);
 
   // The widget only exists in the DOM once this screen mounts, after
@@ -30,13 +30,13 @@ export default function TrustBlock() {
   }, []);
 
   return (
-    <div className="trust-block">
-      <p className="trust-block-line">No pressure, no obligation — just a free measure-up.</p>
-      <p className="trust-block-line">0% in-house finance available, no credit checks.</p>
+    <div className="section trust-footer">
+      {disclaimer && <p className="caption">{disclaimer}</p>}
+      <p className="body finance-line">0% in-house finance available, no credit checks</p>
       {/* TrustBox widget - Micro Star */}
       <div
         ref={widgetRef}
-        className="trustpilot-widget"
+        className="trustpilot-widget caption"
         data-locale="en-US"
         data-template-id="5419b732fbfb950b10de65e5"
         data-businessunit-id="6728f7e9261bfeb02d62b9bb"

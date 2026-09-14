@@ -48,6 +48,10 @@ function App() {
 
           <MaterialSelect selected={material} onSelect={setMaterial} />
 
+          <p className="caption mix-note">
+            We know you might want a mix of materials room to room, this is just a quick guide.
+          </p>
+
           {material && (
             <>
               <BudgetSlider frequency={frequency} amount={amount} onChange={handleBudgetChange} />

@@ -10,18 +10,15 @@
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 18px 20px 28px;
+  padding: var(--space-4) var(--space-4) var(--space-6);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 4px;
 }
 
 .screen--landing {
   justify-content: center;
-  padding-top: 56px;
-  gap: 20px;
   position: relative;
 }
 
@@ -37,35 +34,123 @@
   z-index: 0;
 }
 
-.headline {
-  font-size: 1.75rem;
-  line-height: 1.25;
+/* ---- Type scale utilities — every piece of text on the page composes
+   one of these three (Hero is only ever the room-count number, styled
+   directly on .budget-hero-amount). ---- */
+.heading {
+  font-size: var(--fs-heading);
+  font-weight: 700;
   color: var(--teal-dark);
   position: relative;
   z-index: 1;
 }
 
-.subhead {
-  font-size: 1rem;
-  color: var(--text-muted);
-  max-width: 34ch;
+.body {
+  font-size: var(--fs-body);
+  font-weight: 400;
+  color: var(--teal-dark);
   position: relative;
   z-index: 1;
 }
 
-.subhead--tight {
-  margin-bottom: 4px;
+.caption {
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
 }
 
-/* Budget hero */
+.landing-subhead {
+  max-width: 34ch;
+  margin-top: var(--space-2);
+}
+
+.screen--landing .btn {
+  margin-top: var(--space-5);
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  border-radius: 999px;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn--primary {
+  background: var(--teal-dark);
+  color: var(--white);
+}
+
+.btn--cta {
+  background: var(--cta);
+  color: var(--white);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+.btn--fixed {
+  width: 100%;
+  max-width: 320px;
+}
+
+.btn--cta.btn--fixed {
+  margin-top: var(--space-5);
+}
+
+.link-back {
+  align-self: flex-start;
+  color: var(--teal-dark);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  padding: var(--space-1) 0;
+}
+
+.link-back--center {
+  align-self: center;
+  margin-top: var(--space-3);
+}
+
+/* ---- Sections — the unit of vertical rhythm. Each top-level section is
+   its own flex column with an 8px internal gap between its own elements,
+   and a 32px margin from the section before it (16px only for the very
+   first section, right after the Back link). ---- */
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
+
+.section--top {
+  margin-top: var(--space-3);
+}
+
+.mix-note {
+  max-width: 34ch;
+  margin-top: var(--space-5);
+}
+
+/* Budget hero — no card, no border. Label/number/suffix are one tightly
+   fused block (4px), sitting inside the 8px rhythm of its section. */
 .budget-hero {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  margin-top: 0;
-  padding: 0;
+  gap: var(--space-1);
 }
 
 .budget-hero-glow {
@@ -83,7 +168,7 @@
 .budget-hero-label {
   position: relative;
   z-index: 1;
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 400;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -93,7 +178,7 @@
 .budget-hero-amount {
   position: relative;
   z-index: 1;
-  font-size: 4rem;
+  font-size: var(--fs-hero);
   font-weight: 800;
   color: var(--teal-dark);
   line-height: 1.05;
@@ -102,78 +187,37 @@
 .budget-hero-suffix {
   position: relative;
   z-index: 1;
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
+  font-weight: 400;
   color: var(--teal-dark);
 }
 
-.btn {
-  border-radius: 999px;
-  padding: 14px 32px;
-  font-size: 1rem;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+.deposit-line {
+  font-weight: 600;
 }
 
-.btn--primary {
-  background: var(--teal-dark);
-  color: var(--white);
-}
-
-.btn--cta {
-  background: var(--cta);
-}
-
-.btn--primary:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.btn--primary:not(:disabled):active {
-  transform: scale(0.97);
-}
-
-.btn--fixed {
-  width: 100%;
-  max-width: 320px;
-  margin-top: 8px;
-}
-
-.link-back {
-  align-self: flex-start;
-  color: var(--teal-accent);
-  font-size: 0.9rem;
-  padding: 4px 0;
-}
-
-.link-back--center {
-  align-self: center;
-  margin-top: 4px;
-}
-
-.step-heading {
-  font-size: 1.4rem;
+.min-order-message {
   color: var(--teal-dark);
-  margin-top: 2px;
 }
 
-.step-heading--spaced {
-  margin-top: 4px;
-}
-
-/* Toggle */
+/* Toggle — Weekly/Monthly. Same padding/weight in both states, so neither
+   reads heavier than the other; only colour signals the active one. */
 .toggle-group {
   display: flex;
   background: var(--surface);
   border-radius: 999px;
-  padding: 4px;
-  gap: 4px;
+  padding: var(--space-1);
+  gap: var(--space-1);
   width: 100%;
   max-width: 280px;
 }
 
 .toggle-btn {
   flex: 1;
-  padding: 10px 0;
+  padding: var(--space-2) 0;
   border-radius: 999px;
+  font-size: var(--fs-body);
+  font-weight: 400;
   color: var(--teal-dark);
 }
 
@@ -182,35 +226,29 @@
   color: var(--white);
 }
 
-/* Amount */
-.budget-slider-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-}
-
+/* Amount display — £, number, and /week unit are all Body size; only the
+   number itself carries extra weight for emphasis. */
 .amount-display {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  gap: 2px;
-  margin-top: 2px;
+  gap: var(--space-1);
 }
 
-.amount-currency {
-  font-size: 1.8rem;
+.amount-currency,
+.amount-input,
+.amount-suffix {
+  font-size: var(--fs-body);
   color: var(--teal-dark);
 }
 
 .amount-input {
-  width: 5.5ch;
+  width: 4ch;
   border: none;
   background: none;
-  color: var(--teal-dark);
-  font-size: 2.4rem;
+  font-weight: 600;
   text-align: center;
+  padding: 0;
 }
 
 .amount-input::-webkit-outer-spin-button,
@@ -220,26 +258,24 @@
 }
 
 .amount-suffix {
-  font-size: 1rem;
-  color: var(--text-muted);
-  align-self: flex-end;
-  margin-bottom: 6px;
+  font-weight: 400;
 }
 
 .amount-slider {
   width: 100%;
   max-width: 320px;
+  height: 24px;
   accent-color: var(--teal-accent);
 }
 
-/* Stairs addon — compact inline switch, no card */
+/* Stairs toggle — compact inline switch, no card. Same track height and
+   weight regardless of on/off state. */
 .stairs-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-3);
   width: 100%;
-  padding: 2px 2px;
   text-align: left;
   cursor: pointer;
 }
@@ -247,16 +283,18 @@
 .stairs-row-text {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: var(--space-1);
 }
 
 .stairs-row-label {
-  font-size: 0.85rem;
+  font-size: var(--fs-body);
+  font-weight: 400;
   color: var(--teal-dark);
 }
 
 .stairs-row-hint {
-  font-size: 0.68rem;
+  font-size: var(--fs-caption);
+  font-weight: 400;
   color: var(--text-muted);
 }
 
@@ -305,105 +343,57 @@
   transform: translateX(16px);
 }
 
+/* Warning colour is a functional exception — a real conflict needs to
+   read distinctly from the brand palette, not blend into it. */
 .stairs-warning {
   width: 100%;
-  font-size: 0.78rem;
+  font-size: var(--fs-caption);
+  font-weight: 400;
   color: #b3392f;
   text-align: left;
-  margin-top: -4px;
-  padding: 0 4px;
 }
 
-/* Flooring select */
+/* Material picker — equal width and height via a 3-column grid, 8px
+   internal padding, no shadow in either state. */
 .flooring-select-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
   width: 100%;
 }
 
 .flooring-select-btn {
-  padding: 14px 26px;
+  padding: var(--space-2);
   border-radius: 14px;
   background: var(--surface);
   color: var(--teal-dark);
   border: 2px solid transparent;
-  font-size: 1rem;
+  font-size: var(--fs-body);
+  font-weight: 400;
 }
 
 .flooring-select-btn--active {
   border-color: var(--teal-accent);
-  background: var(--surface);
   color: var(--teal-accent);
 }
 
-/* Result */
-.result-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  width: 100%;
-}
-
-.disclaimer-note {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-
-.min-order-message {
-  margin-top: 4px;
-}
-
-/* Result summary — plain text under the hero, no card */
-.result-summary {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--teal-dark);
-}
-
-.result-summary--muted {
-  font-size: 0.78rem;
-  font-weight: 400;
-  color: var(--text-muted);
-  margin-top: -2px;
-}
-
-/* Bolded mix-and-match disclaimer — a plain statement, not a control */
-.mix-note {
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--teal-dark);
-  max-width: 34ch;
-  margin-top: 4px;
-}
-
-/* Trust block — quiet reassurance + reviews, sits just above the CTA */
-.trust-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  width: 100%;
+/* Trust footer — disclaimer (Caption), finance line (Body/700, the one
+   reassurance that should stand out), and the widget, all one compact
+   block via the shared .section rhythm. */
+.trust-footer {
   max-width: 280px;
-  margin-top: 6px;
 }
 
-.trust-block-line {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  text-align: center;
+.finance-line {
+  font-weight: 700;
 }
 
 .trustpilot-widget {
   width: 100%;
-  margin-top: 2px;
 }
 
 @media (min-width: 640px) {
   .screen {
-    padding-top: 48px;
+    padding-top: var(--space-6);
   }
 }

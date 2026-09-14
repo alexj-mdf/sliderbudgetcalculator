@@ -2,9 +2,9 @@ import { FLOORING_LABELS, FLOORING_ORDER } from '../calc';
 
 export default function MaterialSelect({ selected, onSelect }) {
   return (
-    <>
-      <h2 className="step-heading">What are you interested in?</h2>
-      <p className="subhead subhead--tight">Pick one — your budget will show what fits.</p>
+    <div className="section section--top">
+      <h2 className="heading">What are you interested in?</h2>
+      <p className="caption">Pick one — your budget will show what fits.</p>
 
       <div className="flooring-select-grid" role="radiogroup" aria-label="Flooring material">
         {FLOORING_ORDER.map((key) => {
@@ -23,6 +23,6 @@ export default function MaterialSelect({ selected, onSelect }) {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

@@ -4,8 +4,8 @@ export default function BudgetSlider({ frequency, amount, onChange }) {
   const limits = FREQUENCY_LIMITS[frequency];
 
   return (
-    <div className="budget-slider-block">
-      <h2 className="step-heading step-heading--spaced">What's your budget?</h2>
+    <div className="section">
+      <h2 className="heading">What's your budget?</h2>
 
       <div className="toggle-group" role="tablist" aria-label="Budget frequency">
         <button
