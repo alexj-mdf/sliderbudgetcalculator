@@ -21,13 +21,15 @@ export const FLOORING_LABELS = {
 // Order matters for display (cheapest first)
 export const FLOORING_ORDER = ['carpet', 'vinyl', 'laminate'];
 
-// Slider caps at the point where even Laminate (the most expensive
+// Weekly caps at the point where even Laminate (the most expensive
 // material) has already reached the 5-room cap — beyond this every
 // material shows an identical result, which reads as a dead, unresponsive
-// range rather than a meaningful one.
+// range rather than a meaningful one. Monthly is its own independent
+// range, not a weekly conversion — £65 is MDF's actual minimum accepted
+// monthly order, £235 the equivalent upper end.
 export const FREQUENCY_LIMITS = {
   weekly: { min: 10, max: 55, step: 1 },
-  monthly: { min: 40, max: 238, step: 5 },
+  monthly: { min: 65, max: 235, step: 5 },
 };
 // ---- end confirmed figures ----
 
