@@ -1,5 +1,9 @@
 .app-shell {
   min-height: 100vh;
+  /* dvh accounts for mobile browser chrome (address bar etc.) that vh
+     doesn't — without it, centered content can sit partly below the
+     fold on first load until the chrome collapses on scroll. */
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -20,14 +24,18 @@
 .screen--landing {
   justify-content: center;
   position: relative;
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
 }
 
+/* Shrunk from the original 320x220 — this is a decorative accent, not a
+   hero image, and was the single largest visual element on the screen. */
 .landing-glow {
   position: absolute;
-  top: 30%;
+  top: 35%;
   left: 50%;
-  width: 320px;
-  height: 220px;
+  width: 160px;
+  height: 100px;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, #10888c33 0%, #10888c14 45%, transparent 72%);
   pointer-events: none;
@@ -67,7 +75,7 @@
 }
 
 .screen--landing .btn {
-  margin-top: var(--space-5);
+  margin-top: var(--space-3);
   position: relative;
   z-index: 1;
 }
