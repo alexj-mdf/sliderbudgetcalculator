@@ -21,18 +21,40 @@
   text-align: center;
 }
 
+/* Mobile: top-aligned with a fixed offset rather than vertically centred.
+   Centering (still fine on desktop, see the breakpoint below) was the
+   actual cause of the landing screen sitting low — dvh alone only fixes
+   how the container's height is measured, not that it centres content
+   within that height. This matters most inside a fixed-height iframe
+   embed, where centering behaves differently than in a plain browser tab. */
 .screen--landing {
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
-  padding-top: var(--space-3);
+  padding-top: var(--space-6);
   padding-bottom: var(--space-3);
 }
 
+@media (min-width: 640px) {
+  .screen--landing {
+    justify-content: center;
+    padding-top: var(--space-3);
+  }
+
+  .landing-glow {
+    top: 35%;
+  }
+}
+
 /* Shrunk from the original 320x220 — this is a decorative accent, not a
-   hero image, and was the single largest visual element on the screen. */
+   hero image, and was the single largest visual element on the screen.
+   Positioned as a fixed offset (not a % of the container) to match the
+   mobile top-aligned layout above — a percentage would float it away
+   from the heading now that content isn't vertically centred. Desktop
+   restores the percentage-based position in the breakpoint above, since
+   its content is still centred. */
 .landing-glow {
   position: absolute;
-  top: 35%;
+  top: 90px;
   left: 50%;
   width: 160px;
   height: 100px;
