@@ -24,7 +24,7 @@ function App() {
   const hasResult = !result.belowMinimum && result.roomCount >= 1;
 
   const handleBookMeasureUp = () => {
-    window.location.href = BOOKING_URL;
+    window.top.location.href = BOOKING_URL;
   };
 
   const handleStartOver = () => {
