@@ -24,7 +24,10 @@ function App() {
   const hasResult = !result.belowMinimum && result.roomCount >= 1;
 
   const handleBookMeasureUp = () => {
-    window.top.location.href = BOOKING_URL;
+    // Carry through UTM/tracking params from the calculator's own URL
+    // (window.location.search is '' when there are none, so this is a
+    // no-op redirect to the plain homepage in that case).
+    window.top.location.href = BOOKING_URL + window.location.search;
   };
 
   const handleStartOver = () => {
